@@ -6,50 +6,62 @@ const { Product, Category, Tag, ProductTag } = require("../../models");
 // get all products
 router.get("/", (req, res) => {
   // find all products
-  // be sure to include its associated Category and Tag data
   Product.findAll({
-    attributes: ["id", "product_name", "price", "stock", "category_id"],
+    attributes: [
+      "id",
+      "product_name",
+      "price",
+      "stock",
+      "category_id"
+    ],
+    // be sure to include its associated Category and Tag data
     include: [
       {
-        modeule: Category,
-        attributes: ["category_name"],
+        model: Category,
+        attributes: ["category_name"]
       },
       {
         model: Tag,
         attributes: ["tag_name"],
         through: ProductTag,
-        as: "tagIds",
-      },
-    ],
+        as: "tagIds"
+      }
+    ]
   })
     .then(dbProductData => res.json(dbProductData))
     .catch(err => {
       console.log(err);
-      res.json(500).json(err);
+      res.status(500).json(err);
     });
 });
 
 // get one product
 router.get("/:id", (req, res) => {
   // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
   Product.findOne({
     where: {
-      id: req.params.id,
+      id: req.params.id
     },
-    attributes: ["id", "product_name", "price", "stock", "category_id"],
+    attributes: [
+      "id",
+      "product_name",
+      "price",
+      "stock",
+      "category_id"
+    ],
+    // be sure to include its associated Category and Tag data
     include: [
       {
         model: Category,
-        attributes: ["category_name"],
+        attributes: ["category_name"]
       },
       {
         model: Tag,
         attributes: ["tag_name"],
         through: ProductTag,
-        as: "tagIds",
-      },
-    ],
+        as: "tagIds"
+      }
+    ]
   })
     .then(dbProductData => {
       if (!dbProductData) {
@@ -68,15 +80,15 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   /* req.body should look like this...
     {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
+      "product_name": "Basketball",
+      "price": 200.00,
+      "stock": 3,
+      "tagIds": [1, 2, 3, 4]
     }
   */
   Product.create(req.body)
-    .then(product => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
+    .then((product) => {
+      // if there"s product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
@@ -142,19 +154,23 @@ router.delete("/:id", (req, res) => {
   // delete one product by its `id` value
   Product.destroy({
     where: {
-      id: req.params.id,
-    },
+      id: req.params.id
+    }
   })
+    // send back in JSON and see if product matches id
     .then(dbProductData => {
       if (!dbProductData) {
+        // if not (false)
         res.status(404).json({ message: "No Results" });
         return;
       }
+      // if yes (true)
       res.json(dbProductData);
     })
+    // if there is an err catch it and send a response
     .catch(err => {
       console.log(err);
-      res.status(500).json(err);
+      res.status(500).json(err)
     });
 });
 
