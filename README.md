@@ -17,7 +17,7 @@ JavaScript
 
 
 ## Demo
-[Link to demo video](https://drive.google.com/file/d/1vueF1Jru_uwp1Trw_G4xHyz5eBRmY4-S/view?usp=sharing)
+[Link to demo video](https://drive.google.com/file/d/1vueF1Jru_uwp1Trw_G4xHyz5eBRmY4-S/view?usp=sharing)<br/>
 ![](https://github.com/AndyBoyee604/E-Commerce-BE/blob/main/demo/E-Commerce-BE.gif)
 
 ## Sources Referenced
