@@ -17,7 +17,7 @@ JavaScript
 
 
 ## Demo
-![]()
+![](https://github.com/AndyBoyee604/E-Commerce-BE/blob/main/demo/E-Commerce-BE.gif)
 
 ## Sources Referenced
 [Google](https://www.google.com) |
