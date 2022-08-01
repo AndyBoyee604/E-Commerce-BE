@@ -42,16 +42,12 @@ router.get("/:id", (req, res) => {
     ],
   })
     .then((dbTagData) => {
-      // see if a tag matched the id
       if (!dbTagData) {
-        // if false
         res.status(404).json({ message: "No tag found with this id" });
         return;
       }
-      // if true
       res.json(dbTagData);
     })
-    // if error - catch it and send response
     .catch((err) => {
       console.log(err);
       res.status(500).json(err);
@@ -59,7 +55,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  // create a new tag
   Tag.create(req.body)
     .then((dbTagData) => res.json(dbTagData))
     .catch((err) => {
@@ -69,7 +64,6 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  // update a tag's name by its `id` value
   Tag.update(req.body, {
     where: {
       id: req.params.id,
@@ -89,7 +83,6 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  // delete on tag by its `id` value
   Tag.destroy({
     where: {
       id: req.params.id,

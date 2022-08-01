@@ -22,8 +22,8 @@ router.get("/", (req, res) => {
       },
     ],
   })
-    .then((dbProductData) => res.json(dbProductData))
-    .catch((err) => {
+    .then(dbProductData => res.json(dbProductData))
+    .catch(err => {
       console.log(err);
       res.json(500).json(err);
     });
@@ -50,13 +50,18 @@ router.get("/:id", (req, res) => {
         as: "tagIds",
       },
     ],
-  }).then((dbProductData) => {
-    if (!dbProductData) {
-      res.status(404).json({ message: "No Results" });
-      return;
-    }
-    res.json(dbProductData);
-  });
+  })
+    .then(dbProductData => {
+      if (!dbProductData) {
+        res.status(404).json({ message: "No Results" });
+        return;
+      }
+      res.json(dbProductData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 // create new product
@@ -70,7 +75,7 @@ router.post("/", (req, res) => {
     }
   */
   Product.create(req.body)
-    .then((product) => {
+    .then(product => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
@@ -140,14 +145,14 @@ router.delete("/:id", (req, res) => {
       id: req.params.id,
     },
   })
-    .then((dbProductData) => {
+    .then(dbProductData => {
       if (!dbProductData) {
         res.status(404).json({ message: "No Results" });
         return;
       }
       res.json(dbProductData);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
